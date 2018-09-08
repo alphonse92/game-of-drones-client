@@ -1,0 +1,14 @@
+<h1 class="center">Enter Player's Names</h1>
+<div class="inputs">
+    <div class="input center" *ngFor="let player of players; let i = index">
+        <label>{{player.label}}</label>
+        <app-input [(value)]="player.name"></app-input>
+    </div>
+
+    <div class="input center">
+        <small class="error" *ngIf="error">{{error}}</small>
+    </div>
+    <div class="input center">
+        <app-button (clicked)="start_game()"></app-button>
+    </div>
+</div>

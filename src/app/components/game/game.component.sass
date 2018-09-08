@@ -1,0 +1,16 @@
+$window-size: 500px
+.game-window
+    &.active
+        width: $window-size
+    &.hidden
+        opacity: 0 !important
+
+    overflow: hidden
+    align-self: center
+    height: $window-size
+    width: 0px
+    border:none
+    display: flex
+    flex-direction: column
+    justify-content: center
+    transition: width 300ms, opacity 100ms

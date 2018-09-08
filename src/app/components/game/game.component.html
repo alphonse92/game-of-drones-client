@@ -1,0 +1,20 @@
+<app-welcome 
+    class="game-window" 
+    [ngClass]="{
+        active:current_window.name === windows.welcome.name,
+        hidden:current_window.name !== windows.welcome.name}"
+    (start)="next()">
+</app-welcome>
+<app-config 
+    class="game-window" 
+    [ngClass]="{
+        active:current_window.name === windows.config.name,
+        hidden:current_window.name !== windows.config.name}"
+    (configured)="onConfigured($event)">
+</app-config>
+<app-round 
+    class="game-window" 
+    [ngClass]="{
+        active:current_window.name === windows.round.name,
+        hidden:current_window.name !== windows.round.name}">
+</app-round>
