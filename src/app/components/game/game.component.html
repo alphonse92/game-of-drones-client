@@ -12,9 +12,10 @@
         hidden:current_window.name !== windows.config.name}"
     (configured)="onConfigured($event)">
 </app-config>
-<app-round 
+<app-match 
     class="game-window" 
+    [match]="match"
     [ngClass]="{
-        active:current_window.name === windows.round.name,
-        hidden:current_window.name !== windows.round.name}">
-</app-round>
+        active:current_window.name === windows.match.name,
+        hidden:current_window.name !== windows.match.name}">
+</app-match>

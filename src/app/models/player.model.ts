@@ -1,17 +1,10 @@
-import { PlayerService } from "src/app/services/player/player.service";
+
 
 export class Player {
-    private name: string;
-    private games_played: number;
-    private games_won: number;
 
-    private param_order = ["name", "games_played", "games_won"];
-    constuctor(...params: any[]) {
-        let self = this;
-        params.forEach((element, idx) => {
-            self[this.param_order[idx]] = element;
-        });
-    }
+    private name: string;
+    private games_played: number = 0;
+    private games_won: number = 0;
 
     public getName(): string { return this.name }
     public setName(name: string) { this.name = name }
@@ -22,8 +15,30 @@ export class Player {
     public getGamesPlayed(): number { return this.games_won }
     public setGamesPlayed(value: number) { this.games_played = value }
 
-    public static getByName(name: string): Promise<Player> {
-        return PlayerService.getByName(name)
+    static getMock(name: string): any {
+        let player: Player = null;
     }
+}
 
+export class PlayerBuilder {
+
+    private instance: Player = null;
+    constructor() {
+        this.instance = new Player();
+    }
+    public withName(name: string) {
+        this.instance.setName(name);
+        return this;
+    }
+    public withGamesPlayed(val: number) {
+        this.instance.setGamesPlayed(val);
+        return this;
+    }
+    public withGamesWon(val: number) {
+        this.instance.setGamesWon(val);
+        return this;
+    }
+    public build() {
+        return this.instance;
+    }
 }

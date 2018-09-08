@@ -1,40 +1,46 @@
+import { Round } from "./round.model";
+import { MatchService } from "src/app/services/match/match.service"
+import { Winnable } from "./winnable.interface";
 import { Player } from "./player.model";
 
-export class Match {
+export class Match implements Winnable {
 
-    private matchPlayers: any = {};
+    private winner: Player = null;
+    private rounds: Round[] = [];
+    constructor(
+        private MatchService: MatchService,
+        private Players: Player[],
+        private n_rounds: number,
+    ) {
+        for (let i = 0; i < this.n_rounds; i++) {
+            this.rounds.push(new Round(MatchService, this.Players));
+        }
+    }
 
-    private param_order = ["name", "games_played", "games_won"];
-    constuctor(...params: any[]) {
+    public setRounds(rounds: Round[]) {
+        this.rounds = rounds;
+    }
+    public getRounds(): Round[] {
+        return this.rounds
+    }
+
+    public addRound(round: Round) {
+        this.rounds.push(round);
+    }
+
+    public getWinner(): Promise<Player> {
         let self = this;
-        params.forEach((element, idx) => {
-            self[this.param_order[idx]] = element;
-        });
+        return this.MatchService
+            .getMatchWinner(this.rounds)
+            .then((Winner: Player) => {
+                self.winner = Winner;
+                return self.winner;
+            })
     }
 
-    public addPlayer(player: Player) {
-        this.matchPlayers[player.getName()] = { player, move: null }
-    }
-
-    public addMove(player: Player, move: string) {
-        let playerMatch = this.matchPlayers[player.getName()];
-        if (!playerMatch) return false;
-
-        this.matchPlayers[player.getName()].move = move;
-        return true;
-    }
-
-    public getWinner() {
-        //notice forced to two players
-        let self = this;
-        let playersArray = Object
-            .keys(this.matchPlayers)
-            .map(playerMatchName => self.matchPlayers[playerMatchName])
-
-        /**
-         * logic to consult to backend
-         */
+    public getEmperor() {
 
     }
+
 
 }

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  total_players:2
+  total_players: 2,
+  api: "http://localhost:1337/api/v1"
 };
 
 /*
