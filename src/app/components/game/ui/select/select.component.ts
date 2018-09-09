@@ -10,15 +10,19 @@ export class SelectComponent implements OnInit {
   constructor() { }
   @Input() value: string = "";
   @Input() label: string = "";
+  @Input() options: string[] = []
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
   private isOpen = false;
-  private options: string[] = ["Rock", "Paper", "Scissors"]
-  private option_default = this.options[0];
-  private selected = this.option_default;
+
+  private option_default: string = "";
+  private selected: string = "";
   private arrow = "select-arrow.svg";
   private input = "select-input.svg";
 
   ngOnInit() {
+    this.option_default = this.options[0] || "";
+    this.selected = this.option_default;
+    this.onChange.emit(this.selected);
   }
 
   openOrCLose() {

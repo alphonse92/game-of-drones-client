@@ -88,15 +88,18 @@ export class Match implements Winnable {
 
     private finishMatch(winner) {
         this.is_finish = true;
+        this.winner = winner;
         return this.getStatusMatch(true, false, winner)
             .then(this.saveMatch.bind(this));
 
     }
 
     private saveMatch(data) {
-        console.log("finish match", data, this)
-        return Promise.resolve(data)
-        // this.MatchService.save()
+        return this.MatchService.saveMatch(this.toJson())
+            .then((result) => {
+                data.result = result;
+                return data;
+            })
     }
 
     private getStatusMatch(finish: boolean = false, tie: boolean = false, winner = null) {
@@ -106,6 +109,7 @@ export class Match implements Winnable {
             winner,
             current_player: this.getCurrentPlayerInstance().player,
             current_round: this.getCurrentRoundInstance(),
+            result: null
         })
     }
 
@@ -131,7 +135,11 @@ export class Match implements Winnable {
             Players: this.Players,
             n_rounds: this.n_rounds,
             current_round: this.current_round,
-            current_player: this.current_player
+            current_player: this.current_player,
+            winner: this.winner,
+            rounds: this.rounds.map(r => {
+                return r.toJson();
+            })
         };
     }
 

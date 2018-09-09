@@ -37,7 +37,7 @@ export class Round implements Winnable {
 
 
     public getWinner(): Player {
-        if (this.isATie()) { };
+        if (this.isATie()) { return null };
 
         let roundPlayer1 = this.getPlayer(0);
         let roundPlayer2 = this.getPlayer(1);
@@ -48,7 +48,6 @@ export class Round implements Winnable {
     }
 
     public validePlayerBeatTo(roundPlayer1, roundPlayer2) {
-        console.log(roundPlayer1, "vs", roundPlayer2, roundPlayer1.move, roundPlayer2.move)
         return this.rules[roundPlayer1.move] === roundPlayer2.move;
     }
 
@@ -59,8 +58,6 @@ export class Round implements Winnable {
         })
     }
     public isATie() {
-        console.log("is a tie?", this.getPlayer(0).move, this.getPlayer(1).move)
-        console.log(this.getPlayer(0), this.getPlayer(1))
         return this.getPlayer(0).move === this.getPlayer(1).move
     }
 
@@ -69,6 +66,12 @@ export class Round implements Winnable {
             out = out && !!playerRound.move
             return out;
         }, true)
+    }
+
+    public toJson() {
+        return {
+            round_players: this.roundPlayers
+        }
     }
 
 }

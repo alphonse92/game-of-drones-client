@@ -1,0 +1,23 @@
+<div class="content">
+    <h1><small><a [routerLink]="['/']"> back</a></small> Top Scores </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Wins</th>
+                <th>Matches Played</th>
+                <th>Flawless Victories</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of players; let i = index">
+                <td>{{player.name}}</td>
+                <td>{{player.wins}}</td>
+                <td>{{player.played}}</td>
+                <td>{{player.emperor}}</td>
+            </tr>
+           
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="emperor" [ngClass]="{show: summary?.result.emperor && show_emperor}">
+    <h1>¡ We have a Winner !!</h1>
+    <h2>{{summary?.result.winner.name}} Is The New EMPEROR!</h2>
+    <app-button (clicked)="closeEmperorView()" [label]="emperor_btn_lbl"></app-button>
+  </div>
+  <div class="table_container" [ngClass]="{show:!show_emperor}">
+    <app-score-table [winners]="summary?.winners"></app-score-table>
+    <app-button (clicked)="close()" [label]="play_btn_lbl"></app-button>
+  </div>
+</div>

@@ -9,11 +9,27 @@ import { Match } from '../../models/match.model';
 })
 export class MatchService {
 
+
+
   private api = environment.api + "/match";
+  private api_player = environment.api + "/player";
   constructor(private http: Http
   ) { }
 
 
-  save
-  
+  public saveMatch(match): any {
+    return this.http.post(this.api, match)
+      .toPromise()
+      .then(success => success.json())
+
+  }
+
+  public getSummary(): any {
+    return this.http.get(this.api_player + "/summary")
+      .toPromise()
+      .then(success => success.json())
+  }
+
+
+
 }

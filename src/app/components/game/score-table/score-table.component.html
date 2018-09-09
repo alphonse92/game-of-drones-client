@@ -1,0 +1,20 @@
+<div class="tablescore">
+  <div class="container">
+    <h1>Score</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Round</th>
+          <th>Winner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let winner of winners">
+          <td>{{winner.round}}</td>
+          <td>{{winner.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <app-button *ngIf="is_finish" (clicked)="move()" [label]="button_label"></app-button>
+  </div>
+</div>

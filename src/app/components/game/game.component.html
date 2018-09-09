@@ -13,6 +13,7 @@
     (configured)="onConfigured($event)">
 </app-config>
 <app-match 
+    #MatchComponent
     class="game-window" 
     [match]="current_match"
     (onFinish)="onFinishMatch($event)" 
@@ -20,3 +21,12 @@
         active:current_window.name === windows.match.name,
         hidden:current_window.name !== windows.match.name}">
 </app-match>
+<app-match-summary
+    #SummaryComponent
+    class="game-window" 
+    [summary]="summary"
+    (onClose)="finishGame()" 
+    [ngClass]="{
+        active:current_window.name === windows.summary.name,
+        hidden:current_window.name !== windows.summary.name}">
+</app-match-summary>

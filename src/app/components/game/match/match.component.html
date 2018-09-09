@@ -1,33 +1,14 @@
-<div class="container">
+<div class="container" *ngIf="match">
   <div class="round">
-    <h1>Round {{match.current_round + 1 }}</h1>
+    <h1>Round {{match?.current_round + 1 }}</h1>
     <h2>{{match.Players[match.current_player].name}} Move</h2>
     <div class="input-row">
-      <app-select #select [label]="label_select" (onChange)="onMoveSelected($event)"></app-select>
+      <app-select #select [label]="label_select" [options]="options" (onChange)="onMoveSelected($event)"></app-select>
     </div>
     <div class="input-row center">
       <app-button (clicked)="move()" [label]="button_label"></app-button>
     </div>
 
   </div>
-  <div class="tablescore">
-    <div class="container">
-      <h1>Score</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Round</th>
-            <th>Winner</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let winner of winners">
-            <td>{{winner.round}}</td>
-            <td>{{winner.name}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
+  <app-score-table [winners]="winners"></app-score-table>
 </div>

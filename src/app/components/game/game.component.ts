@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalstorageService } from 'src/app/services/localstorage/localstorage.service'
 import { Player } from '../../models/player.model';
 import { MatchService } from '../../services/match/match.service';
 import { Match } from '../../models/match.model';
+import { MatchComponent } from './match/match.component';
+import { MatchSummaryComponent } from './match-summary/match-summary.component';
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -20,7 +23,11 @@ export class GameComponent implements OnInit {
     },
     match: {
       name: "match",
-      next: "match"
+      next: "summary"
+    },
+    summary: {
+      name: "summary",
+      next: "welcome"
     },
   }
 
@@ -28,6 +35,11 @@ export class GameComponent implements OnInit {
   private current_window = this.current_window_default;
   private last_window = null;
   private current_match = null;
+  private summary = null;
+
+  @ViewChild('MatchComponent') MatchComponent: MatchComponent;
+  @ViewChild('SummaryComponent') MatchSummaryComponent: MatchSummaryComponent;
+
   constructor(
     private LocalstorageService: LocalstorageService,
     private MatchService: MatchService
@@ -36,8 +48,12 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     let current_window = this.LocalstorageService.get("current_window")
     let current_match = this.LocalstorageService.get("match")
+    let summary = this.LocalstorageService.get("summary")
+
     if (current_match && current_window.name === this.windows.match.name)
       this.initMatchWindow(current_match);
+    else if (summary && current_window.name === this.windows.summary.name)
+      this.initSummaryWindow(summary);
     else
       this.initWelcome();
 
@@ -55,7 +71,11 @@ export class GameComponent implements OnInit {
 
     this.current_window = this.windows.match;
     this.current_match = match;
-    console.log(this.current_match)
+  }
+
+  private initSummaryWindow(summary) {
+    this.summary = summary;
+    this.current_window = this.windows.summary;
   }
 
 
@@ -63,16 +83,34 @@ export class GameComponent implements OnInit {
     let self = this;
     PlayersDataPromise
       .then((Players: Player[]) => {
-        console.log(Players);
         self.current_match = new Match(self.MatchService, Players, 3)
-        self.LocalstorageService.set("match", self.current_match.toJson())
+        self.saveMatchData(self.current_match.toJson())
+        self.summary = null;
         self.next();
       })
+    this.MatchComponent.reset();
 
   }
 
-  onFinishMatch(onFinishMatchPromise) {
+  onFinishMatch(summary) {
+    this.saveMatchData(null); //clear last match data
+    this.saveSummary(summary); // store the summary results
+    this.summary = summary
+    this.MatchSummaryComponent.setSummary(this.summary);
+    this.next();
+  }
 
+  private saveMatchData(data) {
+    this.LocalstorageService.set("match", data)
+  }
+
+  private saveSummary(data) {
+    this.LocalstorageService.set("summary", data)
+  }
+
+  private finishGame() {
+    this.LocalstorageService.reset();
+    this.next();
   }
 
   next() {

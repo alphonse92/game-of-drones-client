@@ -11,60 +11,62 @@ export class MatchComponent implements OnInit {
 
   constructor() { }
   @Input("match") match: Match;
-  @Output() onFinish: EventEmitter<Match> = new EventEmitter<Match>();
+  @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('select') SelectComponent: SelectComponent;
 
   private label_select = "Select Move";
   private button_label = "Ok"
   private selected_move = null;
+  private is_finish = false;
 
   private current_round;
   private current_player;
 
   private winners = [];
   private winners_map = {};
+
+  private options: string[] = ["Rock", "Paper", "Scissors"]
   ngOnInit() {
-    console.log(this.match)
-    this.current_round = this.match.getCurrentRoundInstance();
-    this.selected_move = this.SelectComponent.getCurrent();
+    if (this.match)
+      this.current_round = this.match.getCurrentRoundInstance();
+
+    this.reset();
+
   }
 
-  onMoveSelected(value) {
-    console.log("onMoveSelected", value)
+  public reset() {
+    this.winners = [];
+  }
+
+
+  private onMoveSelected(value) {
     this.selected_move = value;
   }
 
-  move() {
-    console.log("move")
+  private move() {
     if (!this.selected_move)
       return console.error("No se ha seleccionado ningún movimiento");
-    console.log("--- move selected ", this.selected_move);
     let self = this;
     this.match
       .move(this.selected_move)
       .then(current_data => {
-        console.log("---", current_data)
 
         self.current_round = current_data.current_round;
         self.current_player = current_data.current_player;
         let winner = current_data.winner
+
         if (current_data.tie) {
-          alert("Ronda Empatada");
         } else if (current_data.finish) {
-          alert("el juego ha terminado");
           self.addResult(winner)
-
+          this.onFinish.emit({ result: current_data.result, winners: self.winners })
         } else if (current_data.winner) {
-          alert("Ganador de la ronda actual " + winner.name);
           self.addResult(winner)
-        } else {
-        }
-        this.selected_move = self.SelectComponent.reset();
+        } else { }
 
+        this.selected_move = self.SelectComponent.reset();
+        this.is_finish = current_data.finish;
       })
   }
-
-  
 
   private addResult(winner) {
     if (winner) {
@@ -76,6 +78,8 @@ export class MatchComponent implements OnInit {
     }
 
   }
+
+  
 
 
 
