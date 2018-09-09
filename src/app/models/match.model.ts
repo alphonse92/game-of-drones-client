@@ -36,7 +36,17 @@ export class Match implements Winnable {
     public addRound(round: Round) {
         this.rounds.push(round);
     }
+    public getCurrentRound() {
+        let offset = this.is_finish ? 1 : 0;
+        return offset + this.current_round;
+    }
 
+    public getCurrentRoundInstance() {
+        return this.rounds[this.current_round];
+    }
+    public getCurrentPlayerInstance() {
+        return this.getCurrentRoundInstance().getPlayer(this.current_player)
+    }
 
     /**
      * about the game
@@ -44,27 +54,59 @@ export class Match implements Winnable {
     public move(move) {
         this.rounds[this.current_round].addMove(this.current_player, move);
         if (this.areAllPlayersMovedInCurrentRound()) {
-            this.nextRound();
+            if (!this.getCurrentRoundInstance().isATie()) {
+                return this.tryGoToNextRound();
+            }
+            return this.resolveTie();
         }
+        return this.nextPlayer();
+    }
+    private nextPlayer() {
+        this.current_player++;
+        return this.getStatusMatch();
+    }
+    private resolveTie() {
+        this.getCurrentRoundInstance().resetMoves();
+        this.current_player = 0;
+        return this.getStatusMatch(false, true);
     }
 
-    private nextRound() {
+    private tryGoToNextRound() {
         let isMatchFinished = this.valideMatchFinished();
+        let winner = this.getCurrentRoundInstance().getWinner();
         if (isMatchFinished) {
-            return this.finishMatch()
+            return this.finishMatch(winner);
         }
+        return this.nextRound(winner);
 
+    }
+    private nextRound(winner) {
+        this.current_player = 0;
         this.current_round++;
+        return this.getStatusMatch(false, false, winner);
+    }
+
+    private finishMatch(winner) {
+        this.is_finish = true;
+        return this.getStatusMatch(true, false, winner)
+            .then(this.saveMatch.bind(this));
 
     }
 
-    private finishMatch() {
-        this.is_finish = true;
-        /**
-         * store in db
-         * emit event notifying and if a player is an emperor
-         * 
-         */
+    private saveMatch(data) {
+        console.log("finish match", data, this)
+        return Promise.resolve(data)
+        // this.MatchService.save()
+    }
+
+    private getStatusMatch(finish: boolean = false, tie: boolean = false, winner = null) {
+        return Promise.resolve({
+            finish,
+            tie,
+            winner,
+            current_player: this.getCurrentPlayerInstance().player,
+            current_round: this.getCurrentRoundInstance(),
+        })
     }
 
     private isLastRound() {
@@ -79,14 +121,9 @@ export class Match implements Winnable {
         return this.isLastRound() && this.areAllPlayersMovedInCurrentRound();
     }
 
-    public getWinner(): Promise<Player> {
+    public getWinner(): Player {
         let self = this;
-        return this.MatchService
-            .getMatchWinner(this.rounds)
-            .then((Winner: Player) => {
-                self.winner = Winner;
-                return self.winner;
-            })
+        return null;
     }
 
     public toJson() {

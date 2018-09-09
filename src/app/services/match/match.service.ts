@@ -14,18 +14,6 @@ export class MatchService {
   ) { }
 
 
-
-  public getMatchWinner(rounds: Round[]): Promise<Player> {
-    return this.http.post(this.api, rounds)
-      .toPromise()
-      .then(success => success.json())
-
-  }
-
-  public getRoundWinner(roundPlayer: { player: Player, move: string }[]): Promise<Player> {
-    return this.http.post(this.api, roundPlayer)
-      .toPromise()
-      .then(success => success.json())
-
-  }
+  save
+  
 }
