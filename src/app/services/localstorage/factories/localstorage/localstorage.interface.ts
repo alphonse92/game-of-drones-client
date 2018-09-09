@@ -1,4 +1,5 @@
-export interface ILocalStorage{
-    set(key:string,value:any);
-    get(key:string);
+export interface ILocalStorage {
+    set(key: string, value: any);
+    get(key: string);
+    reset();
 }

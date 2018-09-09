@@ -30,6 +30,10 @@ export class LocalstorageService {
     return data ? JSON.parse(data) : null;
   }
 
+  public reset(){
+    this.storage.reset();
+  }
+
   public static getInstance() {
     if (!LocalstorageService.instance) {
       console.log("creating instance local storage")

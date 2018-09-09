@@ -1,0 +1,21 @@
+<div class="container">
+  <label>{{label}}</label>
+  <div class="input">
+    <div class="select">
+      <div class="control" (click)="openOrCLose()">
+        <div class="text">
+          <p>{{selected}}</p>
+          <img src="select-input.svg">
+        </div>
+        <div class="arrow">
+            <img src="select-arrow.svg">
+        </div>
+      </div>
+    </div>
+    <div class="list" [ngClass]="{closed:!isOpen}">
+      <ul>
+        <li *ngFor="let option of options; let i = index" (click)="select(option)">{{option}}</li>
+      </ul>
+    </div>
+  </div>
+</div>

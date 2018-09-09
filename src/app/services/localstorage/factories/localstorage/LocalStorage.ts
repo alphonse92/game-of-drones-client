@@ -7,4 +7,7 @@ export class LocalStorage implements ILocalStorage {
     get(key: string) {
         return localStorage.getItem(key);
     }
+    reset() {
+        localStorage.clear();
+    }
 }

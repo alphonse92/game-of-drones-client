@@ -14,7 +14,8 @@
 </app-config>
 <app-match 
     class="game-window" 
-    [match]="match"
+    [match]="current_match"
+    (onFinish)="onFinishMatch($event)" 
     [ngClass]="{
         active:current_window.name === windows.match.name,
         hidden:current_window.name !== windows.match.name}">

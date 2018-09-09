@@ -1,0 +1,82 @@
+@import "src/sass/vars.sass"
+
+.container
+    display: flex
+    flex-direction: row
+    label
+        font-size: 18px;
+        margin-right: 13px
+
+    
+           
+    .input
+        display: flex
+        flex-direction: column
+        position: relative
+        .list
+            position: absolute
+            width: 100%
+            top: 30px
+            &.closed
+                max-height: 0px
+                overflow: hidden
+                border: none
+            ul
+                padding: 0px
+                margin: 0px
+                max-height: 250px
+                border: 1px solid black
+                background: white
+                transition: 600ms
+                list-style: none
+                li
+                    &:hover
+                        cursor: pointer
+                        background: black
+                        color: white
+                    transition: 0.3s
+                    padding: 7px 11px
+                    font-size: 18px
+        .select
+            display: flex
+            flex-direction: row
+            justify-items: left
+            .control
+                display: flex
+                flex-direction: row
+                .text
+                    border: 2px solid black
+                    position: relative
+                    display: flex
+                    padding: 0px
+                    justify-self: left
+                    height: 30px
+                    width: 200px
+                    &:hover
+                        cursor: pointer
+                    &:focus
+                        outline: none !important
+                    img
+                        object-fit: cover
+                        position: absolute
+                        width: 100%;
+                        height: 100%;
+                        padding: 0;
+                        margin: 0;
+                    
+                    p
+                        padding: 0px 32px
+                        margin: 0px
+                        font-size: 24px   
+                        text-align: center
+                        align-self: center 
+                        z-index: 999
+                .arrow
+                    &:hover
+                        cursor: pointer
+                    img
+                        width: 30px
+                        height: 30px
+                   
+            
+            

@@ -9,6 +9,7 @@ export class ButtonComponent implements OnInit {
 
   private emiting = 0;
   constructor() { }
+  @Input() label: string;
   @Output() clicked: EventEmitter<any> = new EventEmitter<any>();
   ngOnInit() {
   }

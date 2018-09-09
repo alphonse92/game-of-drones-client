@@ -9,6 +9,6 @@
         <small class="error" *ngIf="error">{{error}}</small>
     </div>
     <div class="input center">
-        <app-button (clicked)="start_game()"></app-button>
+        <app-button (clicked)="start_game()" [label]="button_label"></app-button>
     </div>
 </div>

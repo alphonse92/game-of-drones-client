@@ -12,6 +12,7 @@ export class ConfigComponent implements OnInit {
 
   private players: { label: string, name: string }[] = [];
   private error = "";
+  private button_label = "Start Playing"
   @Output() configured: EventEmitter<Promise<Player[]>> = new EventEmitter<Promise<Player[]>>();
   constructor(private PlayerService: PlayerService) {
     for (let i = 1; i <= environment.total_players; i++) {

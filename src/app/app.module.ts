@@ -12,6 +12,7 @@ import { MatchComponent } from './components/game/match/match.component';
 import { ConfigComponent } from './components/game/config/config.component';
 import { InputComponent } from './components/game/ui/input/input.component';
 import { HttpModule } from '@angular/http';
+import { SelectComponent } from './components/game/ui/select/select.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpModule } from '@angular/http';
     RoundComponent,
     ConfigComponent,
     InputComponent,
-    MatchComponent
+    MatchComponent,
+    SelectComponent
   ],
   imports: [
     BrowserModule,

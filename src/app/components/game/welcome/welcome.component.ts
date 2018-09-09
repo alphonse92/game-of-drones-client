@@ -8,10 +8,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class WelcomeComponent implements OnInit {
 
   constructor() { }
+  private button_label = "Start Playing"
   @Output() start: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit() {
   }
+
   public start_game() {
     console.log("asdasd")
     this.start.emit();

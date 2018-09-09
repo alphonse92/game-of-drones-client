@@ -3,6 +3,7 @@ import { MatchService } from "src/app/services/match/match.service"
 import { Winnable } from "./winnable.interface";
 export class Round implements Winnable {
 
+
     private roundPlayers: { player: Player, move: string }[] = [];
     private roundPlayersMap = {}
     private winner: Player;
@@ -16,9 +17,8 @@ export class Round implements Winnable {
         this.roundPlayersMap[player.getName()] = this.roundPlayers.length - 1;
     }
 
-    public addMove(player: Player, move: string) {
-        let idx = this.roundPlayersMap[player.getName()];
-        this.roundPlayers[idx].move = move;
+    public addMove(player: number, move: string) {
+        this.roundPlayers[player].move = move;
     }
 
     public getWinner(): Promise<Player> {
@@ -26,6 +26,13 @@ export class Round implements Winnable {
         this.MatchService.getRoundWinner(this.roundPlayers);
         return null;
 
+    }
+
+    public areAllPlayersMove(): any {
+        return this.roundPlayers.reduce((out, playerRound) => {
+            out = out && !!playerRound.move
+            return out;
+        }, true)
     }
 
 }

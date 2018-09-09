@@ -1,3 +1,41 @@
-<p>
-  match works!
-</p>
+<div class="container">
+  <div class="round">
+    <h1>Round {{match.current_round + 1 }}</h1>
+    <h2>{{match.Players[match.current_player].name}} Move</h2>
+    <div class="input-row">
+      <app-select [label]="label_select" (onChange)="playerMove($event)"></app-select>
+    </div>
+    <div class="input-row center">
+      <app-button [label]="button_label"></app-button>
+    </div>
+
+  </div>
+  <div class="tablescore">
+    <div class="container">
+      <h1>Score</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Round</th>
+            <th>Winner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Alejandro</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Alejandro</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Alejandro</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
